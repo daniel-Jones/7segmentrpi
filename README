@@ -1,0 +1,7 @@
+Raspberry Pi 4 digit 7 segment display effects without GPIO libraries.
+Sloppy code with lots of repeating the same portions.
+
+displayword(unsigned char str[5]) // simply display a word, use in a loop
+blinkword(unsigned char str[4], int repeat) // blink word once plus any integer > 0. <0 will blink forever
+runclock(void) // display the time on the display, forever
+scrollword(char *string) // scroll the string from right to left with a small buffer of extra characters
