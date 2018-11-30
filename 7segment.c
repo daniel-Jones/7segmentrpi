@@ -134,7 +134,7 @@ enum characters
 	CHAR_J		= SEG_B | SEG_C | SEG_D | SEG_E,
 	CHAR_L		= SEG_D | SEG_E | SEG_F,
 	CHAR_N		= SEG_C | SEG_E | SEG_G,
-	CHAR_O		= SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,
+	CHAR_O		= SEG_C | SEG_D | SEG_E | SEG_G,
 	CHAR_P		= SEG_A | SEG_B | SEG_E | SEG_F | SEG_G,
 	CHAR_R		= SEG_E | SEG_G,
 	CHAR_S		= SEG_A | SEG_C | SEG_D | SEG_F | SEG_G,
@@ -154,7 +154,8 @@ int digits[4] =
 };
 
 char hexcharacters[16] =
-{CHAR_ZERO,
+{
+	CHAR_ZERO,
 	CHAR_ONE,
 	CHAR_TWO,
 	CHAR_THREE,
@@ -174,9 +175,7 @@ char hexcharacters[16] =
 
 char ascii[127] =
 {
-	[46] = 0,
-	CHAR_DOT,
-	0,
+	[47] = 0,
 	CHAR_ZERO,
 	CHAR_ONE,
 	CHAR_TWO,
@@ -402,7 +401,7 @@ runclock(void)
 			time_t t = time(NULL);
 			struct tm *tm = localtime(&t);
 			if (converthour(tm->tm_hour) < 10)
-				snprintf(timenow, 5, "k%d%02d", converthour(tm->tm_hour), tm->tm_min);
+				snprintf(timenow, 5, " %d%02d", converthour(tm->tm_hour), tm->tm_min);
 			else
 				snprintf(timenow, 5, "%02d%02d", converthour(tm->tm_hour), tm->tm_min);
 			start = clock();
@@ -419,7 +418,6 @@ runclock(void)
 		}
 		end = clock();
 	}
-
 }
 
 void
@@ -436,7 +434,7 @@ scrollword(unsigned char *string)
 
 	while (1)
 	{
-		if ((double)(end-start) >= 3000)
+		if ((double)(end-start) >= 5000)
 		{
 		// https://stackoverflow.com/questions/48331360/scroll-a-word-through-an-array-in-c-from-right-to-left
 			// shift the buffer
@@ -460,7 +458,6 @@ scrollword(unsigned char *string)
 		}
 		end = clock();
 	}
-
 }
 
 int
@@ -468,10 +465,9 @@ main(int argc, char *argv[])
 {
 	setup_io();
 	pinsetup();
-	//runclock();
+	runclock();
 	if (argv[1])
 		scrollword(argv[1]);
 	clearpins();
 	return 0;
 }
-
